@@ -25,34 +25,30 @@ public class medicine {
     private connection con = new connection();
     private medicineValidation validation = new medicineValidation();
 
-    public void register_medicine(int id, String name, String description, String clasification, int quantity) {
+    public boolean register_medicine(int id, String name, String description, String clasification, int quantity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.clasification = clasification;
         this.quantity = quantity;
-        int vali = validation.id_medicine_validation(this.id);
-        if (vali == 0) {
-            System.out.print("El id no puede ser negativo");
-        } else if (vali == 1) {
-            String sql = "INSERT INTO medicine('id', 'name', 'description', 'clasification', 'quantity') VALUES(?,?,?,?,?)";
-            try (Connection conn = con.connect();
-                    PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setInt(1, this.id);
-                pstmt.setString(2, this.name);
-                pstmt.setString(3, this.description);
-                pstmt.setString(4, this.clasification);
-                pstmt.setInt(5, this.quantity);
-                pstmt.executeUpdate();
-                System.out.print("Se a registrado un nuevo medicamento");
-            } catch (Exception e) {
-                System.out.print("Hubo un error al intentar hacer la coneccion");
-            }
-        } else if (vali == 2) {
-            System.out.print("EL id ya esta ocupado");
-        } else {
-            System.out.print("Algo salio mal al intentar validar el id");
+        boolean register;
+
+        String sql = "INSERT INTO medicine('id', 'name', 'description', 'clasification', 'quantity') VALUES(?,?,?,?,?)";
+        try (Connection conn = con.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, this.id);
+            pstmt.setString(2, this.name);
+            pstmt.setString(3, this.description);
+            pstmt.setString(4, this.clasification);
+            pstmt.setInt(5, this.quantity);
+            pstmt.executeUpdate();
+            // System.out.print("Se a registrado un nuevo medicamento");
+            register = true;
+        } catch (Exception e) {
+            //System.out.print("Hubo un error al intentar hacer la coneccion");
+            register = false;
         }
+        return register;
     }
 
     public JSONArray show_medicines() {

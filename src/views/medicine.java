@@ -9,14 +9,18 @@ package views;
  *
  * @author usiel
  */
-
+import org.json.simple.JSONArray;
+import system_inventary.*;
 public class medicine extends javax.swing.JFrame {
 
     /**
      * Creates new form medicine
      */
+    private JSONArray medicinesList = new JSONArray();
+    private system_inventary.medicine medicin = new system_inventary.medicine();
     public medicine() {
         initComponents();
+        this.medicinesLis = medicin.show_medicines();
     }
 
     /**
@@ -28,11 +32,34 @@ public class medicine extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableMedicines = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         itemMenuRegisterMedicine = new javax.swing.JMenu();
         itemMenuLogoutMedicine = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        tableMedicines.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Clave", "Nombre", "Descripcion", "Clasificacion", "Existencias"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableMedicines);
 
         itemMenuRegisterMedicine.setText("Registrar Medicamento");
         itemMenuRegisterMedicine.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -51,11 +78,13 @@ public class medicine extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 677, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -74,6 +103,7 @@ public class medicine extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -104,5 +134,7 @@ public class medicine extends javax.swing.JFrame {
     private javax.swing.JMenu itemMenuLogoutMedicine;
     private javax.swing.JMenu itemMenuRegisterMedicine;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane jScrollPane1;
+    public javax.swing.JTable tableMedicines;
     // End of variables declaration//GEN-END:variables
 }

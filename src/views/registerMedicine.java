@@ -10,7 +10,8 @@ package views;
  * @author usiel
  */
 import system_inventary.medicine;
-import validations.input_data;
+import validations.*;
+import javax.swing.JOptionPane;
 
 public class registerMedicine extends javax.swing.JFrame {
 
@@ -46,6 +47,7 @@ public class registerMedicine extends javax.swing.JFrame {
         lblAlertRegisterMedicine = new javax.swing.JLabel();
 
         setTitle("Registrar Medicamento");
+        setResizable(false);
 
         lblKeyRegisterMedicine.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblKeyRegisterMedicine.setText("Clave:");
@@ -110,7 +112,7 @@ public class registerMedicine extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(102, 102, 102)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblAlertRegisterMedicine, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblAlertRegisterMedicine)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnCancelRegisterMedicine)
                                 .addGap(18, 18, 18)
@@ -143,7 +145,7 @@ public class registerMedicine extends javax.swing.JFrame {
                     .addComponent(lblQuantityMedicine)
                     .addComponent(txtQuantityRegisterMedicine))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblAlertRegisterMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblAlertRegisterMedicine, javax.swing.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelRegisterMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -156,22 +158,31 @@ public class registerMedicine extends javax.swing.JFrame {
 
     private void btnRegisterMedicineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterMedicineActionPerformed
         input_data validation = new input_data();
+        medicineValidation medicineValidation = new medicineValidation();
+
         String key = txtKeyRegisterMedicine.getText().toString();
         String name = txtNameRegisterMedicine.getText().toString();
         String description = txtDescriptionRegisterMedicine.getText().toString();
         String clasification = cmbClasificationRegisterMedicine.getSelectedItem().toString();
         String quantity = txtQuantityRegisterMedicine.getText().toString();
+
         if (validation.isNumeric(key) == false || validation.isNumeric(quantity) == false) {
-            lblAlertRegisterMedicine.setText("La clave o la cantidad ingresada del medicamento debe de ser de tipo numerico");
+            JOptionPane.showMessageDialog(null, "La clave o la cantidad ingresada del medicamento debe de ser de tipo numerico", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
             medicine registerMedicine = new medicine();
             Integer keyCorrect = Integer.parseInt(key);
             Integer quantityCorrect = Integer.parseInt(quantity);
+
             if (keyCorrect <= 0 || quantityCorrect <= 0) {
-                lblAlertRegisterMedicine.setText("La clave o la cantidad ingresada del medicamento no debe de ser negativa");
+                JOptionPane.showMessageDialog(null, "La clave o la cantidad ingresada del medicamento no debe de ser negativa", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                registerMedicine.register_medicine(keyCorrect, name, description, clasification, quantityCorrect);
-                lblAlertRegisterMedicine.setText("Nuevo medicamento agregado correctamente");
+                boolean result = registerMedicine.register_medicine(keyCorrect, name, description, clasification, quantityCorrect);
+                if (result == true) {
+                    JOptionPane.showMessageDialog(null, "Nuevo medicamento agregado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "La clave del medicamento ya existe");
+                }
+
             }
         }
 
