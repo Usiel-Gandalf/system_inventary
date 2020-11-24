@@ -11,9 +11,7 @@ package system_inventary;
  */
 import validations.medicineValidation;
 import java.sql.*;
-import org.json.simple.JSONArray;
-
-import org.json.simple.JSONObject;
+import org.json.*;
 
 public class medicine {
 
@@ -53,21 +51,20 @@ public class medicine {
 
     public JSONArray show_medicines() {
         String sql = "SELECT * FROM medicine";
-        JSONArray jsonMedicines = new JSONArray();
+        JSONArray medicines = new JSONArray();
         int contador = 0;
 
         try (Connection conn = con.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-
-                JSONArray jsonMedicine = new JSONArray();
-                jsonMedicine.add(rs.getInt("id"));
-                jsonMedicine.add(rs.getString("name"));
-                jsonMedicine.add(rs.getString("description"));
-                jsonMedicine.add(rs.getString("clasification"));
-                jsonMedicine.add(rs.getInt("quantity"));
-                jsonMedicines.add(contador, jsonMedicine);
+                JSONObject medicine = new JSONObject();
+                medicine.put("id", rs.getInt("id"));
+                medicine.put("name", rs.getString("name"));
+                medicine.put("description", rs.getString("description"));
+                medicine.put("clasification", rs.getString("clasification"));
+                medicine.put("quantity", rs.getInt("quantity"));
+                medicines.put(medicine);
                 contador++;
             }
 
@@ -75,6 +72,6 @@ public class medicine {
             System.out.print("Hubo un error al intentar hacer la coneccion");
 
         }
-        return jsonMedicines;
+        return medicines;
     }
 }
