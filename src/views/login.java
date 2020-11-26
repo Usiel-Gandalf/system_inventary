@@ -41,6 +41,7 @@ public class login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Iniciar Sesion");
 
         btnLogin.setText("Iniciar Sesion");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {

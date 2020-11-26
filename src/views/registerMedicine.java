@@ -77,6 +77,11 @@ public class registerMedicine extends javax.swing.JFrame {
         });
 
         btnCancelRegisterMedicine.setText("Cancelar");
+        btnCancelRegisterMedicine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelRegisterMedicineActionPerformed(evt);
+            }
+        });
 
         lblAlertRegisterMedicine.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblAlertRegisterMedicine.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -179,6 +184,7 @@ public class registerMedicine extends javax.swing.JFrame {
                 boolean result = registerMedicine.register_medicine(keyCorrect, name, description, clasification, quantityCorrect);
                 if (result == true) {
                     JOptionPane.showMessageDialog(null, "Nuevo medicamento agregado correctamente");
+                    
                 } else {
                     JOptionPane.showMessageDialog(null, "La clave del medicamento ya existe");
                 }
@@ -189,6 +195,10 @@ public class registerMedicine extends javax.swing.JFrame {
         //
         //System.out.println(registerMedicine);
     }//GEN-LAST:event_btnRegisterMedicineActionPerformed
+
+    private void btnCancelRegisterMedicineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelRegisterMedicineActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCancelRegisterMedicineActionPerformed
 
     /**
      * @param args the command line arguments

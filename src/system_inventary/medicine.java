@@ -74,4 +74,19 @@ public class medicine {
         }
         return medicines;
     }
+
+    public boolean delete_medicine(int id) {
+        this.id = id;
+        boolean status;
+        String sql = "DELETE FROM medicine WHERE id = ?";
+        try (Connection conn = con.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, this.id);
+            pstmt.executeUpdate();
+            status = true;
+        } catch (Exception e) {
+            status = false;
+        }
+        return status;
+    }
 }
