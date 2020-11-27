@@ -44,6 +44,7 @@ public class medicines_main extends javax.swing.JFrame {
     public medicines_main() {
         initComponents();
         tableMedicine();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -61,12 +62,13 @@ public class medicines_main extends javax.swing.JFrame {
         btnEditMedicine = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuRegisterMedicine = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
+        jMenuHistorial = new javax.swing.JMenu();
+        jMenuHistoryPersonalize = new javax.swing.JMenu();
+        jMenuHistory = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Medicamentos");
-        setPreferredSize(new java.awt.Dimension(600, 600));
+        setSize(new java.awt.Dimension(1200, 400));
 
         tableMedicines.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         tableMedicines.setModel(new javax.swing.table.DefaultTableModel(
@@ -89,6 +91,11 @@ public class medicines_main extends javax.swing.JFrame {
 
         btnEditMedicine.setText("Editar");
         btnEditMedicine.setPreferredSize(null);
+        btnEditMedicine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditMedicineActionPerformed(evt);
+            }
+        });
 
         menuRegisterMedicine.setText("Registrar medicamento");
         menuRegisterMedicine.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -98,11 +105,20 @@ public class medicines_main extends javax.swing.JFrame {
         });
         jMenuBar1.add(menuRegisterMedicine);
 
-        jMenu3.setText("Historial general");
-        jMenuBar1.add(jMenu3);
+        jMenuHistorial.setText("Historial");
 
-        jMenu1.setText("Historial personalizado");
-        jMenuBar1.add(jMenu1);
+        jMenuHistoryPersonalize.setText("Historial personalizado");
+        jMenuHistoryPersonalize.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuHistoryPersonalizeMouseClicked(evt);
+            }
+        });
+        jMenuHistorial.add(jMenuHistoryPersonalize);
+
+        jMenuHistory.setText("Historial general");
+        jMenuHistorial.add(jMenuHistory);
+
+        jMenuBar1.add(jMenuHistorial);
 
         setJMenuBar(jMenuBar1);
 
@@ -112,25 +128,26 @@ public class medicines_main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnDeleteMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
+                        .addComponent(btnEditMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDeleteMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEditMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEditMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDeleteMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(25, Short.MAX_VALUE))
+                    .addComponent(btnDeleteMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditMedicine, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         pack();
@@ -157,6 +174,20 @@ public class medicines_main extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe de seleccionar un medicamento para poder eliminarlo");
         }
     }//GEN-LAST:event_btnDeleteMedicineActionPerformed
+
+    private void btnEditMedicineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMedicineActionPerformed
+        try{
+            Object idSelected = tableMedicines.getValueAt(tableMedicines.getSelectedRow(), 0);
+            Integer id = Integer.parseInt(idSelected.toString());
+            new editMedicine(id).setVisible(true);
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Debe de seleccionar un medicamento para poder editarlo");
+        }
+    }//GEN-LAST:event_btnEditMedicineActionPerformed
+
+    private void jMenuHistoryPersonalizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuHistoryPersonalizeMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuHistoryPersonalizeMouseClicked
 
     /**
      * @param args the command line arguments
@@ -196,9 +227,10 @@ public class medicines_main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDeleteMedicine;
     private javax.swing.JButton btnEditMedicine;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuHistorial;
+    private javax.swing.JMenu jMenuHistory;
+    private javax.swing.JMenu jMenuHistoryPersonalize;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu menuRegisterMedicine;
     private javax.swing.JTable tableMedicines;

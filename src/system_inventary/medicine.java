@@ -75,6 +75,29 @@ public class medicine {
         return medicines;
     }
 
+    public JSONObject show_medicine(int id) {
+        JSONObject medicine = new JSONObject();
+        String sql = "SELECT * FROM medicine WHERE id = ?";
+
+        try (Connection conn = con.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                medicine.put("id", rs.getInt("id"));
+                medicine.put("name", rs.getString("name"));
+                medicine.put("description", rs.getString("description"));
+                medicine.put("clasification", rs.getString("clasification"));
+                medicine.put("quantity", rs.getInt("quantity"));
+            }
+
+        } catch (Exception e) {
+            System.out.print("Hubo un error al intentar hacer la coneccion");
+
+        }
+        return medicine;
+    }
+
     public boolean delete_medicine(int id) {
         this.id = id;
         boolean status;

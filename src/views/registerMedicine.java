@@ -20,6 +20,7 @@ public class registerMedicine extends javax.swing.JFrame {
      */
     public registerMedicine() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**

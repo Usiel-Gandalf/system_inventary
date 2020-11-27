@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package system_inventary.validations;
+package system_inventary;
 
 /**
  *
  * @author usiel
  */
-public class input_data {
-    
-    public boolean data_register_medicine(int num){
-        
-        return true;
-    }
+public class user {
+
 }
