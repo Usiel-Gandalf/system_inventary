@@ -20,7 +20,13 @@ public class registerMedicine extends javax.swing.JFrame {
      */
     public registerMedicine() {
         initComponents();
+        addItemCMBClasification();
         this.setLocationRelativeTo(null);
+        
+    }
+    
+    public void addItemCMBClasification(){
+        //this.cmbClasificationRegisterMedicine.addItem(s);
     }
 
     /**
@@ -61,8 +67,6 @@ public class registerMedicine extends javax.swing.JFrame {
 
         lblClasificationRegisterMedicine.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblClasificationRegisterMedicine.setText("Clasificacion:");
-
-        cmbClasificationRegisterMedicine.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Inyeccion", "Formula", "Pastillas", "Capsulas", "Other" }));
 
         lblQuantityMedicine.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblQuantityMedicine.setText("Cantidad:");
@@ -189,12 +193,8 @@ public class registerMedicine extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "La clave del medicamento ya existe");
                 }
-
             }
         }
-
-        //
-        //System.out.println(registerMedicine);
     }//GEN-LAST:event_btnRegisterMedicineActionPerformed
 
     private void btnCancelRegisterMedicineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelRegisterMedicineActionPerformed

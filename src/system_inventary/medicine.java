@@ -112,4 +112,21 @@ public class medicine {
         }
         return status;
     }
+    
+        public boolean update_clasification(Integer id, String clasification) {
+        this.id = id;
+        this.clasification = clasification;
+        boolean status;
+        String sql = "UPDATE clasification SET clasification = ? WHERE id = ?";
+        try (Connection conn = con.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, this.clasification);
+            pstmt.setInt(2, this.id);
+            pstmt.executeUpdate();
+            status = true;
+        } catch (Exception e) {
+            status = false;
+        }
+        return status;
+    }
 }
