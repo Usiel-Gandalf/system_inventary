@@ -10,21 +10,23 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import system_inventary.clasification;
 
 /**
  *
  * @author usiel
  */
+import system_inventary.clasification;
 public class clasification_main extends javax.swing.JFrame {
 
     /**
      * Creates new form clasifications
      */
+    clasification objClasification = new clasification();
     public void tableClasifications() {
-        clasification clasification = new clasification();
         JSONArray clasificationsList = new JSONArray();
-        clasificationsList = clasification.show_clasifications();
+        clasificationsList = objClasification.show_clasifications();
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Clave");
         modelo.addColumn("Clasification");

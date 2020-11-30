@@ -18,32 +18,30 @@ public class medicine {
     private int id;
     private String name;
     private String description;
-    private String clasification;
+    private Integer clasification;
     private int quantity;
     private connection con = new connection();
     private medicineValidation validation = new medicineValidation();
 
-    public boolean register_medicine(int id, String name, String description, String clasification, int quantity) {
+    public boolean register_medicine(Integer id, String name, String description, Integer quantity, Integer clasification) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.clasification = clasification;
         this.quantity = quantity;
+        this.clasification = clasification;
         boolean register;
 
-        String sql = "INSERT INTO medicine('id', 'name', 'description', 'clasification', 'quantity') VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO medicine('id', 'name', 'description', 'quantity', 'idClasification') VALUES(?,?,?,?,?)";
         try (Connection conn = con.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, this.id);
             pstmt.setString(2, this.name);
             pstmt.setString(3, this.description);
-            pstmt.setString(4, this.clasification);
-            pstmt.setInt(5, this.quantity);
+            pstmt.setInt(4, this.quantity);
+            pstmt.setInt(5, this.clasification);
             pstmt.executeUpdate();
-            // System.out.print("Se a registrado un nuevo medicamento");
             register = true;
         } catch (Exception e) {
-            //System.out.print("Hubo un error al intentar hacer la coneccion");
             register = false;
         }
         return register;
@@ -112,15 +110,15 @@ public class medicine {
         }
         return status;
     }
-    
-        public boolean update_clasification(Integer id, String clasification) {
+
+    public boolean update_medicine(Integer id, String name, String description, Integer quantity, Integer clasification) {
         this.id = id;
         this.clasification = clasification;
         boolean status;
         String sql = "UPDATE clasification SET clasification = ? WHERE id = ?";
         try (Connection conn = con.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, this.clasification);
+            pstmt.setInt(1, this.clasification);
             pstmt.setInt(2, this.id);
             pstmt.executeUpdate();
             status = true;

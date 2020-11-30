@@ -18,16 +18,18 @@ public class editMedicine extends javax.swing.JFrame {
     /**
      * Creates new form edit_medicine
      */
+    private Integer id;
+    medicine objMedicine = new medicine();
     public editMedicine(Integer id) {
+        this.id = id;
         initComponents();
         this.setLocationRelativeTo(null);
         medicine_data(id);
     }
 
     public void medicine_data(Integer id) {
-        medicine medicineData = new medicine();
         JSONObject data = new JSONObject();
-        data = medicineData.show_medicine(id);
+        data = objMedicine.show_medicine(id);
         Integer idMedicine = data.getInt("id");
         String nameMedicine = data.getString("name");
         String descriptionMedicine = data.getString("description");

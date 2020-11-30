@@ -12,21 +12,31 @@ package views;
 import system_inventary.medicine;
 import validations.*;
 import javax.swing.JOptionPane;
+import org.json.JSONArray;
+import system_inventary.clasification;
 
 public class registerMedicine extends javax.swing.JFrame {
 
     /**
      * Creates new form createMedicine
      */
+    medicine objMedicine = new medicine();
+    clasification objClasification = new clasification();
     public registerMedicine() {
         initComponents();
         addItemCMBClasification();
         this.setLocationRelativeTo(null);
-        
     }
     
     public void addItemCMBClasification(){
-        //this.cmbClasificationRegisterMedicine.addItem(s);
+        JSONArray clasifications = new JSONArray();
+        clasifications = objClasification.show_clasifications();
+        for (int i = 0; i < clasifications.length(); i++) {
+            String clasification = clasifications.getJSONObject(i).getString("clasification");
+            Integer id = clasifications.getJSONObject(i).getInt("id");
+            //cmbClasificationRegisterMedicine.addItem(clasification);
+            cmbClasificationRegisterMedicine.se
+        }
     }
 
     /**
@@ -173,7 +183,7 @@ public class registerMedicine extends javax.swing.JFrame {
         String key = txtKeyRegisterMedicine.getText().toString();
         String name = txtNameRegisterMedicine.getText().toString();
         String description = txtDescriptionRegisterMedicine.getText().toString();
-        String clasification = cmbClasificationRegisterMedicine.getSelectedItem().toString();
+        Integer clasification = Integer.parseInt(cmbClasificationRegisterMedicine.getSelectedItem().toString());
         String quantity = txtQuantityRegisterMedicine.getText().toString();
 
         if (validation.isNumeric(key) == false || validation.isNumeric(quantity) == false) {
@@ -186,7 +196,7 @@ public class registerMedicine extends javax.swing.JFrame {
             if (keyCorrect <= 0 || quantityCorrect <= 0) {
                 JOptionPane.showMessageDialog(null, "La clave o la cantidad ingresada del medicamento no debe de ser negativa", "Warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                boolean result = registerMedicine.register_medicine(keyCorrect, name, description, clasification, quantityCorrect);
+                boolean result = registerMedicine.register_medicine(keyCorrect, name, description, quantityCorrect, clasification);
                 if (result == true) {
                     JOptionPane.showMessageDialog(null, "Nuevo medicamento agregado correctamente");
                     

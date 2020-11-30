@@ -39,8 +39,6 @@ public class clasification {
     public JSONArray show_clasifications() {
         String sql = "SELECT * FROM clasification";
         JSONArray clasifications = new JSONArray();
-        int contador = 0;
-
         try (Connection conn = con.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
@@ -49,7 +47,6 @@ public class clasification {
                 clasification.put("id", rs.getInt("id"));
                 clasification.put("clasification", rs.getString("clasification"));
                 clasifications.put(clasification);
-                contador++;
             }
 
         } catch (Exception e) {
