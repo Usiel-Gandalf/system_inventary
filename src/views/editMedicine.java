@@ -6,8 +6,11 @@
 package views;
 
 import java.sql.Array;
+import javax.swing.JOptionPane;
+import org.json.JSONArray;
 import system_inventary.medicine;
 import org.json.JSONObject;
+import system_inventary.clasification;
 
 /**
  *
@@ -20,27 +23,41 @@ public class editMedicine extends javax.swing.JFrame {
      */
     private Integer id;
     medicine objMedicine = new medicine();
+    clasification objClasification = new clasification();
+
     public editMedicine(Integer id) {
         this.id = id;
         initComponents();
-        this.setLocationRelativeTo(null);
         medicine_data(id);
+        this.setLocationRelativeTo(null);
     }
 
     public void medicine_data(Integer id) {
         JSONObject data = new JSONObject();
         data = objMedicine.show_medicine(id);
+        JSONArray clasifications = new JSONArray();
+        clasifications = objClasification.show_clasifications();
+
         Integer idMedicine = data.getInt("id");
         String nameMedicine = data.getString("name");
         String descriptionMedicine = data.getString("description");
-        String clasificationMedicine = data.getString("clasification");
-        Integer quantityMedicine = data.getInt("quantity");
+        String quantityMedicine = data.getString("quantity");
+        Integer idClasification = data.getInt("idClasification");
+        String clasification = data.getString("clasification");
 
         txtKeyEditMedicine.setText(String.valueOf(idMedicine));
         txtNameEditMedicine.setText(nameMedicine);
         txtDescriptionEditMedicine.setText(descriptionMedicine);
-        cmbClasificationEditMedicine.addItem(clasificationMedicine);
         txtQuantityEditMedicine.setText(String.valueOf(quantityMedicine));
+        cmbClasificationEditMedicine.addItem(idClasification + ": " + clasification);
+        for (int i = 0; i < clasifications.length(); i++) {
+            Integer clasificationId = clasifications.getJSONObject(i).getInt("id");
+            String clasificationClas = clasifications.getJSONObject(i).getString("clasification");
+            if (idClasification != clasificationId) {
+                cmbClasificationEditMedicine.addItem(clasificationId + ": " + clasificationClas);
+            } 
+        }
+        //
     }
 
     /**
@@ -84,7 +101,13 @@ public class editMedicine extends javax.swing.JFrame {
         lblQuantityEditMedicine.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblQuantityEditMedicine.setText("Cantidad:");
 
+        txtKeyEditMedicine.setEditable(false);
+        txtKeyEditMedicine.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        txtKeyEditMedicine.setEnabled(false);
+
+        txtQuantityEditMedicine.setEditable(false);
         txtQuantityEditMedicine.setToolTipText("");
+        txtQuantityEditMedicine.setEnabled(false);
 
         btnEditEditMedicine.setText("Editar");
         btnEditEditMedicine.addActionListener(new java.awt.event.ActionListener() {
@@ -171,12 +194,18 @@ public class editMedicine extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelEditMedicineActionPerformed
 
     private void btnEditEditMedicineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditEditMedicineActionPerformed
-        Integer key = Integer.parseInt(txtKeyEditMedicine.getText());
+        Integer newId = Integer.parseInt(txtKeyEditMedicine.getText());
         String name = txtNameEditMedicine.getText();
         String description = txtDescriptionEditMedicine.getText();
-        String clasification = cmbClasificationEditMedicine.getSelectedItem().toString();
-        Integer quantity = Integer.parseInt(txtQuantityEditMedicine.getText());
-        System.out.println(clasification);
+        Integer clasification = Integer.parseInt(cmbClasificationEditMedicine.getSelectedItem().toString().replaceAll("\\D+",""));
+        //Integer quantity = Integer.parseInt(txtQuantityEditMedicine.getText());
+        boolean status = objMedicine.update_medicine(this.id, name, description, clasification);
+        if (status == true) {
+            JOptionPane.showMessageDialog(null, "Medicamento editado correctamente");
+            this.setVisible(false);
+        }else{
+            JOptionPane.showMessageDialog(null, "Algo salio mal mientras se intentaba editar el medicamento");
+        }
     }//GEN-LAST:event_btnEditEditMedicineActionPerformed
 
     /**

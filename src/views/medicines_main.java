@@ -20,26 +20,28 @@ public class medicines_main extends javax.swing.JFrame {
     /**
      * Creates new form medicines_main
      */
+    medicine medicines = new medicine();
 
     public void tableMedicine() {
-        medicine medicines = new medicine();
+            DefaultTableModel modelo = new DefaultTableModel();
         JSONArray medicinesList = medicines.show_medicines();
-        DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Clave");
         modelo.addColumn("Nombre");
         modelo.addColumn("Descripcion");
-        modelo.addColumn("Clasificacion");
         modelo.addColumn("Cantidad");
+        modelo.addColumn("Clasificacion");
         for (int i = 0; i < medicinesList.length(); i++) {
             Integer id = medicinesList.getJSONObject(i).getInt("id");
             String name = medicinesList.getJSONObject(i).getString("name");
             String description = medicinesList.getJSONObject(i).getString("description");
-            String clasification = medicinesList.getJSONObject(i).getString("clasification");
             Integer quantity = medicinesList.getJSONObject(i).getInt("quantity");
-            modelo.addRow(new Object[]{id, name, description, clasification, quantity});
+            String clasification = medicinesList.getJSONObject(i).getString("clasification");
+            modelo.addRow(new Object[]{id, name, description, quantity, clasification});
         }
         tableMedicines.setModel(modelo);
     }
+
+
 
     public medicines_main() {
         initComponents();
@@ -63,6 +65,7 @@ public class medicines_main extends javax.swing.JFrame {
         btnEditMedicine = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnRegisterMedicine = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         menubarRegisterMedicine = new javax.swing.JMenuBar();
         menuClasificationes = new javax.swing.JMenu();
         jMenuHistorial = new javax.swing.JMenu();
@@ -79,7 +82,7 @@ public class medicines_main extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Clave", "Nombre", "Descripcion", "Clasificacion", "Cantidad"
+                "Clave", "Nombre", "Descripcion", "Cantidad", "Clasification"
             }
         ));
         jScrollPane1.setViewportView(tableMedicines);
@@ -140,6 +143,13 @@ public class medicines_main extends javax.swing.JFrame {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         menuClasificationes.setText("Clasificaciones");
         menuClasificationes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -175,6 +185,8 @@ public class medicines_main extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(80, 80, 80)
+                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -183,8 +195,13 @@ public class medicines_main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jButton1)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -204,9 +221,9 @@ public class medicines_main extends javax.swing.JFrame {
                 medicine medicine = new medicine();
                 boolean result = medicine.delete_medicine(Integer.parseInt(idSelected.toString()));
                 if (result == true) {
-                        JOptionPane.showMessageDialog(null, "El medicamento a sido eliminado correctamente");
-                }else{
-                        JOptionPane.showMessageDialog(null, "Algo a salido mal mientras se intentaba eliminar el medicamento");
+                    JOptionPane.showMessageDialog(null, "El medicamento a sido eliminado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Algo a salido mal mientras se intentaba eliminar el medicamento");
                 }
             }
         } catch (Exception e) {
@@ -215,11 +232,11 @@ public class medicines_main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteMedicineActionPerformed
 
     private void btnEditMedicineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMedicineActionPerformed
-        try{
+        try {
             Object idSelected = tableMedicines.getValueAt(tableMedicines.getSelectedRow(), 0);
             Integer id = Integer.parseInt(idSelected.toString());
             new editMedicine(id).setVisible(true);
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Debe de seleccionar un medicamento para poder editarlo");
         }
     }//GEN-LAST:event_btnEditMedicineActionPerformed
@@ -230,7 +247,12 @@ public class medicines_main extends javax.swing.JFrame {
 
     private void btnRegisterMedicineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterMedicineActionPerformed
         new registerMedicine().setVisible(true);
+        
     }//GEN-LAST:event_btnRegisterMedicineActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        tableMedicine();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -258,7 +280,7 @@ public class medicines_main extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(medicines_main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
- 
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -271,6 +293,7 @@ public class medicines_main extends javax.swing.JFrame {
     private javax.swing.JButton btnDeleteMedicine;
     private javax.swing.JButton btnEditMedicine;
     private javax.swing.JButton btnRegisterMedicine;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenuHistorial;
     private javax.swing.JMenu jMenuHistory;

@@ -48,7 +48,7 @@ public class medicine {
     }
 
     public JSONArray show_medicines() {
-        String sql = "SELECT * FROM medicine";
+        String sql = "SELECT * FROM medicine JOIN clasification ON medicine.idClasification = clasification.id";
         JSONArray medicines = new JSONArray();
         int contador = 0;
 
@@ -60,14 +60,16 @@ public class medicine {
                 medicine.put("id", rs.getInt("id"));
                 medicine.put("name", rs.getString("name"));
                 medicine.put("description", rs.getString("description"));
-                medicine.put("clasification", rs.getString("clasification"));
                 medicine.put("quantity", rs.getInt("quantity"));
+                medicine.put("idClasification", rs.getInt("idClasification"));
+                medicine.put("clasification", rs.getString("clasification"));
                 medicines.put(medicine);
                 contador++;
+
             }
 
         } catch (Exception e) {
-            System.out.print("Hubo un error al intentar hacer la coneccion");
+            System.out.print("Hubo un error al intentar hacer la coneccion: show_medicines");
 
         }
         return medicines;
@@ -75,7 +77,9 @@ public class medicine {
 
     public JSONObject show_medicine(int id) {
         JSONObject medicine = new JSONObject();
-        String sql = "SELECT * FROM medicine WHERE id = ?";
+        String sql = "SELECT * FROM medicine JOIN clasification "
+                + "ON medicine.idClasification = clasification.id "
+                + "WHERE medicine.id = ?";
 
         try (Connection conn = con.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -85,8 +89,9 @@ public class medicine {
                 medicine.put("id", rs.getInt("id"));
                 medicine.put("name", rs.getString("name"));
                 medicine.put("description", rs.getString("description"));
+                medicine.put("quantity", rs.getString("quantity"));
+                medicine.put("idClasification", rs.getInt("idClasification"));
                 medicine.put("clasification", rs.getString("clasification"));
-                medicine.put("quantity", rs.getInt("quantity"));
             }
 
         } catch (Exception e) {
@@ -111,15 +116,20 @@ public class medicine {
         return status;
     }
 
-    public boolean update_medicine(Integer id, String name, String description, Integer quantity, Integer clasification) {
+    public boolean update_medicine(Integer id, String name, String description, Integer clasification) {
         this.id = id;
+        this.name = name;
+        this.description = description;
+        this.quantity = quantity;
         this.clasification = clasification;
         boolean status;
-        String sql = "UPDATE clasification SET clasification = ? WHERE id = ?";
+        String sql = "UPDATE medicine SET name = ?, description = ?, idClasification = ? WHERE id = ?";
         try (Connection conn = con.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, this.clasification);
-            pstmt.setInt(2, this.id);
+            pstmt.setString(1, this.name);
+            pstmt.setString(2, this.description);
+            pstmt.setInt(3, this.clasification);
+            pstmt.setInt(4, this.id);
             pstmt.executeUpdate();
             status = true;
         } catch (Exception e) {

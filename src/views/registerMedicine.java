@@ -22,6 +22,9 @@ public class registerMedicine extends javax.swing.JFrame {
      */
     medicine objMedicine = new medicine();
     clasification objClasification = new clasification();
+    medicines_main medic = new medicines_main();
+    
+    
     public registerMedicine() {
         initComponents();
         addItemCMBClasification();
@@ -34,8 +37,8 @@ public class registerMedicine extends javax.swing.JFrame {
         for (int i = 0; i < clasifications.length(); i++) {
             String clasification = clasifications.getJSONObject(i).getString("clasification");
             Integer id = clasifications.getJSONObject(i).getInt("id");
-            //cmbClasificationRegisterMedicine.addItem(clasification);
-            cmbClasificationRegisterMedicine.se
+            cmbClasificationRegisterMedicine.addItem(id + ": " +clasification);
+            
         }
     }
 
@@ -183,7 +186,7 @@ public class registerMedicine extends javax.swing.JFrame {
         String key = txtKeyRegisterMedicine.getText().toString();
         String name = txtNameRegisterMedicine.getText().toString();
         String description = txtDescriptionRegisterMedicine.getText().toString();
-        Integer clasification = Integer.parseInt(cmbClasificationRegisterMedicine.getSelectedItem().toString());
+        Integer clasification = Integer.parseInt(cmbClasificationRegisterMedicine.getSelectedItem().toString().replaceAll("\\D+",""));
         String quantity = txtQuantityRegisterMedicine.getText().toString();
 
         if (validation.isNumeric(key) == false || validation.isNumeric(quantity) == false) {
@@ -199,7 +202,8 @@ public class registerMedicine extends javax.swing.JFrame {
                 boolean result = registerMedicine.register_medicine(keyCorrect, name, description, quantityCorrect, clasification);
                 if (result == true) {
                     JOptionPane.showMessageDialog(null, "Nuevo medicamento agregado correctamente");
-                    
+                    medic.tableMedicine();
+                    this.setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "La clave del medicamento ya existe");
                 }
